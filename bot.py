@@ -244,34 +244,51 @@ async def on_ready():
 @client.command(name="makeroles")
 async def makeroles(ctx):
     print(ctx.author)
+
     def check(m):
         return m.channel == ctx.channel and ctx.author.id != client.user.id and ctx.author.id == m.author.id
 
+    def rcheck(react, u):
+        return str(react) in ["1️⃣", "2️⃣", "3️⃣"] and u.id == ctx.message.author.id
+
+    async def send_list():
+        final_list = await AltTest(int(players), int(gamemode), ctx)
+        prints = []
+        for each in [final_list]:
+            cur_print = ""
+            num = 1
+            for item in each:
+                cur_print = cur_print + f"**[{num}] - " + item + "**\n"
+                num += 1
+            prints.append(cur_print)
+        final_print = prints[0]
+        await ctx.send(embed=sendembed("Shuffled full list", f"number: {len(final_list)}", final_print))
+        await ctx.send(embed=sendembed("", "INFO:", "Do you want to generate new list with the same parameters ? y/n"))
+        answer = await client.wait_for('message', check=check, timeout=20)
+        if answer.content == "y":
+            await send_list()
+        else:
+            return
+
     await ctx.send(embed=sendembed("", "INFO:",
                                    "Thank you for using Town of Salem's role list generator mady by KingOfNova and made into discord version by Miner28_3\n\nNow please write number of players 6-15"))
-    players = await client.wait_for('message', check=check, timeout=120)
-    await ctx.send(embed=sendembed("", "INFO:", "Please choose a gamemode.\n"
+    playersmsg = await client.wait_for('message', check=check, timeout=120)
+    players = playersmsg.content
+    gamemodemsg = await ctx.send(embed=sendembed("", "INFO:", "Please choose a gamemode.\n"
                                                 "1. Mafia Returns\n"
                                                 "2. Classic\n"
                                                 "3. Coven"))
-    gamemode = await client.wait_for('message', check=check, timeout=120)
-    try:
-        players = int(players.content)
-        gamemode = int(gamemode.content)
-    except:
-        await ctx.send(embed=sendembed("", "ERROR:", "One of the questions was answered incorrectly!"))
-        return
-    final_list= await AltTest(players, gamemode, ctx)
-    prints = []
-    for each in [final_list]:
-        cur_print = ""
-        num = 1
-        for item in each:
-            cur_print = cur_print + f"**[{num}] - " + item + "**\n"
-            num += 1
-        prints.append(cur_print)
-    final_print = prints[0]
-    await ctx.send(embed=sendembed("Shuffled full list", f"number: {len(final_list)}", final_print))
+    await gamemodemsg.add_reaction("1️⃣")
+    await gamemodemsg.add_reaction("2️⃣")
+    await gamemodemsg.add_reaction("3️⃣")
+
+    reaction, user = await client.wait_for('reaction_add', check=rcheck, timeout=120)
+    gamemodes = {"1️⃣": 1, "2️⃣": 2, "3️⃣": 3}
+    gamemode = gamemodes[str(reaction)]
+
+    await send_list()
+
+
 
 
 @client.command(name="update", hidden=True)
