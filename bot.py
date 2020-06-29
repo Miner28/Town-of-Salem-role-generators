@@ -271,7 +271,7 @@ async def makeroles(ctx):
             return
 
     await ctx.send(embed=sendembed("", "INFO:",
-                                   "Thank you for using Town of Salem's role list generator mady by KingOfNova and made into discord version by Miner28_3\n\nNow please write number of players 6-15"))
+                                   "Thank you for using Town of Salem's role list generator made by KingOfNova and reworked into discord version by Miner28_3\n\nNow please write number of players 6-15"))
     playersmsg = await client.wait_for('message', check=check, timeout=120)
     players = playersmsg.content
     gamemodemsg = await ctx.send(embed=sendembed("", "INFO:", "Please choose a gamemode.\n"
