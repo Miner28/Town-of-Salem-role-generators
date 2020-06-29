@@ -1,197 +1,244 @@
 import random
 import gspread
-
-# __________________________________________________________
-# Created by George Shea
+#__________________________________________________________
+# Created by George Shea     ßeta
 # Edited by Miner28_3
 # 15/6/2020
-# 15/6/2020
+# 28/6/2020
 # Version 2.0
-#
-# Automatically gives out roles for the town of salem game
-# __________________________________________________________
+# Massive upgrade to include mafia returns coven and classic
+# no bugs yet
+# automatically gives out roles for the town of salem game
+#__________________________________________________________
 
 # Put you're link below
 link = "https://docs.google.com/spreadsheets/d/1Ni3F9nH0BRdcZh3P5tOzbxDPK2MsQAP59GHR8JvcqZo/edit?usp=sharing"
 # Put your link above
 
 
-# Googlespreadsheet initialization
-gclient = gspread.service_account(filename="client_secret.json")
-game_sheet = gclient.open_by_url(link).sheet1
 
 
-def main():
-    # NEUTRAL
-    # For games of lower then 11
-    neu_low = "Serial Killer", "Jester", "Executioner", "Witch", "Pirate"
-    # Inclue lowNue for games over 11
-    neu_high = "Amnesiac", "Arsonist", "Guardian Angel", "Werewolf", "Plaguebearer", "Vampire"
+def AltTest():
 
-    # MAFIA
-    mafia_low = "Consigliere", "Consort", "Hypnotist", "Blackmailer", "Janitor", "Ambusher",
-    mafia_high = "Disquiser", "Framer"
+    AllRoles = \
+        "Bodygaurd", \
+        "Investigator", \
+        "Doctor", \
+        "Lookout", \
+        "Escort", \
+        "Vigilante", \
+        "Veteran", \
+        "Sheriff", \
+        "Mayor", \
+        "Tracker", \
+        "Psychic", \
+        "Crusader", \
+        "Retributionist", \
+        "Transporter", \
+        "Spy", \
+        "Jailor", \
+        "Trapper", \
+        "Medium", \
+        "Consigliere",                  \
+        "Consort", \
+        "Blackmailer", \
+        "Jainitor", \
+        "Ambusher", \
+        "Disquiser", \
+        "Framer", \
+        "Hypnotist", \
+        "Serial Killer",                \
+        "Jester", \
+        "Executioner", \
+        "Witch", \
+        "Pirate", \
+        "Amnesiac", \
+        "Arsonist", \
+        "Guardian Angle", \
+        "Werewolf", \
+        "Plaguebearer", \
+        "Vampire", \
+        "Coven leader" ,                 \
+        "Medua", \
+        "Necromancer", \
+        "Hex Master", \
+        "Potion Master", \
 
-    # TOWN
-    town_low = "Bodyguard", "Investigator", "Doctor", "Lookout", "Escort", "Vigilante", "Veteran", "Sheriff", "Mayor", \
-               "Tracker", "Trapper"
+    MafiaReturns = \
+               1 , 1 , 1 , 1 , 1 , 1 , 1 , 1 , 1 , 1 , \
+               1 , 1 , 1 , 1 , 1 , 1 , 1 , 1 , 1 , 1 , \
+               1 , 1 , 1 , 1 , 1 , 1 , 1 , 1 , 0 , 1 , \
+               1 , 1 , 1 , 1 , 1 , 0 , 0 , 0 , 0 , 0 , \
+               0 , 0 ,\
 
-    town_high = "Psychic", "Crusader", "Retrobutionist", "Transporter", "Spy", "Jailer"
+    Classic =  1 , 1 , 1 , 1 , 1 , 1 , 1 , 1 , 1 , 0 , \
+               0 , 0 , 1 , 1 , 1 , 1 , 0 , 1 , 1 , 1 , \
+               1 , 0 , 1 , 1 , 0 , 1 , 1 , 1 , 1 , 1 , \
+               0, 1 , 1 , 0 , 1 , 0 , 1 , 0 , 0 , 0 , \
+               0 , 0 ,\
 
-    mafia_list = list()
-    town_list = list()
+    Coven =    1 , 1 , 1 , 1 , 1 , 1 , 1 , 1 , 1 , 1 , \
+               1 , 1 , 1 , 1 , 1 , 1 , 1 , 1 , 1 , 1 , \
+               1 , 1 , 1 , 1 , 1 , 1 , 0 , 0 , 0 , 1 , \
+               1 , 1 , 1 , 1 , 1 , 0 , 1 , 1 , 1 , 1 , \
+               1 , 1 ,\
 
-    print("Welcome To The Town Of Salem Role Picker Console App\n"
-          "______________________________________________________\n"
-          "Created by KingOfNova\n"
-          "Edited by Miner28_3\n"
-          "Please follow the prompts\n")
-    town_numbers = input("Please enter players present above 6\n")
-    try:
-        town_numbers = int(town_numbers)
-        if town_numbers <= 6 or town_numbers >= 16:
-            print("\n\n\n\n")
-            main()
-    except:
-        print("\n\n\n\n")
-        main()
-    print("You will be prompted to have certain roles in your game")
-    print("This does not guarantee that the roles will generate")
-    print("Simply answer y for yes or n for no")
-    medium_choice = input("Do you wish to have a medium || y/n ||\n").lower()
-    forger_choice = input("Do you wish to have a Forger || y/n ||\n").lower()
 
-    if town_numbers == 7:
-        mafia_count = 2
-        neu_count = 1
-        town_count = 4
-    elif town_numbers == 8:
-        mafia_count = 2
-        neu_count = 1
-        town_count = 5
-    elif town_numbers == 9:
-        mafia_count = 2
-        neu_count = 1
-        town_count = 6
-    elif town_numbers == 10:
-        mafia_count = 3
-        neu_count = 1
-        town_count = 6
-    # Big Game cut off
-    elif town_numbers == 11:
-        mafia_count = 3
-        neu_count = 1
-        town_count = 7
-    elif town_numbers == 12:
-        mafia_count = 3
-        neu_count = 2
-        town_count = 7
-    elif town_numbers == 13:
-        mafia_count = 3
-        neu_count = 2
-        town_count = 8
-    elif town_numbers == 14:
-        mafia_count = 4
-        neu_count = 2
-        town_count = 8
-    elif town_numbers == 15:
-        mafia_count = 4
-        neu_count = 3
-        town_count = 8
-    else:
-        mafia_count = 0
-        neu_count = 0
-        town_count = 0
+    TownList = []
 
-    town_print = []
-    mafia_print = []
-    neu_print = []
+    MafiaList = []
 
-    # MafiaGeneration
-    if town_numbers >= 10:
-        mafia_list = mafia_low + mafia_high
-    elif town_numbers < 10:
-        mafia_list = mafia_list.append(mafia_low)
+    NeuList = []
 
-    if forger_choice == "y":
-        forger = "Forger", "Forger"
-        mafia_list = mafia_list + forger
+    CovenList = []
 
-    print("\n\n\n")
-    print("Mafia Roles")
-    print("_____________________________________")
+    FinalePrint = []
 
-    mafia_print.append("Godfather")
-    mafia_print.append("Mofioso")
-    if mafia_count > 2:
-        while len(mafia_print) < mafia_count:
-            generate = mafia_list[random.randrange(0, len(mafia_list))]
-            if generate not in mafia_print:
-                mafia_print.append(generate)
-    if mafia_count > 3:
-        while len(mafia_print) < mafia_count:
-            generate = mafia_list[random.randrange(0, len(mafia_list))]
-            if generate not in mafia_print:
-                mafia_print.append(generate)
+    combindedList = MafiaReturns , Classic , Coven
 
-    for x in range(len(mafia_print)):
-        print(mafia_print[x])
+    print("________________________________________________________")
+    print("Welcome to the town of salem role picker")
+    print("Built by KingOfNova")
+    print("GameMode")
+    print("____________________")
+    print("1 Maffia Returns")
+    print("2 Classic")
+    print("3 Coven ")
+    print("____________________")
+    GameMode = int(input("Please enter number of gamemode you wish to play \n")) - 1
+    print("________________________________________________________")
+    townNumbers = int(input("Please enter players present above  6 \n"))
 
-    # Town Generation
-    if town_count >= 10:
-        town_list = town_low + town_high
-    elif town_count < 10:
-        town_list = town_low
+    if townNumbers == 7:
+        mafiaCount = 2
+        neuCount = 1
+        townCount =4
+        covenCount = 2
+    elif townNumbers == 8:
+        mafiaCount = 2
+        neuCount = 1
+        townCount = 5
+        covenCount = 2
+    elif townNumbers == 9:
+        mafiaCount = 2
+        neuCount = 1
+        townCount = 6
+        covenCount = 2
+    elif townNumbers == 10:
+        mafiaCount = 2
+        neuCount = 1
+        townCount = 6
+        covenCount = 2
+    elif townNumbers == 11:
+        mafiaCount = 3
+        neuCount = 1
+        townCount = 7
+        covenCount = 3
+    elif townNumbers == 12:
+        mafiaCount = 3
+        neuCount = 2
+        townCount = 7
+        covenCount = 3
+    elif townNumbers == 13:
+        mafiaCount = 3
+        neuCount = 2
+        townCount = 8
+        covenCount = 3
+    elif townNumbers == 14:
+        mafiaCount = 4
+        neuCount = 2
+        townCount = 8
+        covenCount = 4
+    elif townNumbers == 15:
+        mafiaCount = 4
+        neuCount = 3
+        townCount = 8
+        covenCount = 4
 
-    if medium_choice == "y":
-        medium = "Medium", "Medium"
-        town_list = town_list + medium
+    #MAFIA RETURNS SYLE
+    count = 0
+    # TOWN ___________________________________________________
+    for x in combindedList[GameMode]:
+        if combindedList[GameMode][count] == 1 and count >= 0 and count <= 17:
+            TownList.append(AllRoles[count])
 
-    print("\n")
-    print("Town Roles")
-    print("_____________________________________")
+        if combindedList[GameMode][26] == 1:
+            if combindedList[GameMode][count] == 1 and count >= 18 and count <= 25:
+                MafiaList.append(AllRoles[count])
 
-    while len(town_print) < town_count:
-        generate = town_list[random.randrange(0, len(town_list))]
-        if generate not in town_print:
-            town_print.append(generate)
+        if combindedList[GameMode][count] == 1 and count >= 26 and count <= 36:
+            NeuList.append(AllRoles[count])
 
-    for x in range(len(town_print)):
-        print(town_print[x])
+        if combindedList[GameMode][37] == 1:
+            if combindedList[GameMode][count] == 1 and count >= 37 and count <= 42:
+                CovenList.append(AllRoles[count])
 
-    # Neu Generation
-    if town_numbers > 10:
-        neu_list = neu_low + neu_high
-    else:
-        neu_list = neu_low
+        count = count + 1
 
-    print("\n")
-    print("Neutral Roles")
-    print("_____________________________________")
+    count = 1
+    countSecond = 1
 
-    while len(neu_print) < neu_count:
-        generate = neu_list[random.randrange(0, len(neu_list))]
-        if generate not in neu_print:
-            neu_print.append(generate)
+    while count <= townCount:
+        generate = random.choice(TownList)
+        if generate not in TownList: TownList.append(generate)
+        FinalePrint.append(TownList[count])
 
-    for x in range(len(neu_print)):
-        print(neu_print[x])
+        countSecond = countSecond + 1
+        count = count + 1
 
-    final_print = neu_print + mafia_print + town_print
-    random.shuffle(final_print)
-    print("\n\n\n")
-    print("Houses")
-    print("_____________________________________")
-    for x in range(len(final_print)):
-        print([x + 1], " ", final_print[x])
-    print("_____________________________________\n")
+    count = 1
+
+    while count <= neuCount:
+        generate = random.choice(NeuList)
+        if generate not in NeuList: NeuList.append(generate)
+        FinalePrint.append(NeuList[count])
+
+        count = count + 1
+        countSecond = countSecond + 1
+
+    count = 1
+
+    if combindedList[GameMode][26] == 1:
+        FinalePrint.append("Godfather")
+        FinalePrint.append("Moffisio")
+        while count <= mafiaCount - 2:
+            generate = random.choice(MafiaList)
+            if generate not in MafiaList: MafiaList.append(generate)
+            FinalePrint.append(MafiaList[count])
+
+            countSecond = countSecond + 1
+            count = count + 1
+
+    count = 1
+
+    # dont forget coven leader
+    if combindedList[GameMode][37] == 1:
+        FinalePrint.append("Coven Leader")
+        while count <= covenCount - 1:
+            generate = random.choice(CovenList)
+            if generate not in CovenList: CovenList.append(generate)
+            FinalePrint.append(CovenList[count])
+
+            countSecond = countSecond + 1
+            count = count + 1
+
+
+    random.shuffle(FinalePrint)
+
+    count = 0
+    for x in FinalePrint:
+        print("[",  count + 1, "]        ", FinalePrint[count])
+        count = count + 1
     if "y" == input("Do you want to upload results to linked spreadsheet ? || y/n\n"):
-        for x in range(len(final_print)):
-            game_sheet.update_cell(11+x, 7, final_print[x])
+        gclient = gspread.service_account(filename="client_secret.json")
+        game_sheet = gclient.open_by_url(link).sheet1
+        for x in range(len(FinalePrint)):
+            game_sheet.update_cell(11 + x, 7, FinalePrint[x])
         print("Spreadsheet updated successfully!")
-    reroll = input("Re-roll || y/n").lower()
+
+    reroll = input("Do you wish to reroll y/n \n")
     if reroll == "y":
-        main()
-
-
-main()
+        AltTest()
+    else:
+        exit()
+AltTest()
