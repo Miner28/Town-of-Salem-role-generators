@@ -1,0 +1,20 @@
+{
+  "Serial Killer": {
+    "attack-type": "basic",
+    "defense-type": "basic",
+    "priority": 5,
+    "sheriff": "suspicious",
+    "classic-results": "Doctor, Disguiser, or Serial Killer.",
+    "coven-results": "Doctor, Disguiser, Serial Killer, or Potion Master."
+  },
+  "Bodyguard": {
+    "attack-type": "powerfull",
+    "defense-type": "none",
+    "defense-type-vest": "basic",
+    "pririty": 3,
+    "sheriff": "innocent",
+    "classic-results": "Bodyguard, Godfather, or Arsonist.",
+    "coven-results": "Bodyguard, Godfather, Arsonist, or Crusader.",
+
+  }
+}

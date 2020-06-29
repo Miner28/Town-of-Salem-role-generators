@@ -1,0 +1,16 @@
+
+__pycache__/
+
+*.output
+
+*.bak1
+
+TOSGUI.py.bak2
+
+*.bak3
+
+*.bak2
+
+*.tre
+
+*.tcl
