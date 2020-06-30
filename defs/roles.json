@@ -1,31 +1,95 @@
 {
   "Serial Killer": {
     "type": "neutral-killing",
-    "attack-type": "basic",
-    "defense-type": "basic",
+    "attack-type": 1,
+    "defense-type": 1,
     "priority": 5,
     "sheriff": "suspicious",
     "classic-results": "Doctor, Disguiser, or Serial Killer.",
-    "coven-results": "Doctor, Disguiser, Serial Killer, or Potion Master."
+    "coven-results": "Doctor, Disguiser, Serial Killer, or Potion Master.",
+    "actions": [
+      "attack"
+    ]
   },
   "Bodyguard": {
     "type": "town-protective",
-    "attack-type": "powerfull",
-    "defense-type": "none",
-    "defense-type-vest": "basic",
+    "attack-type": 0,
+    "defense-type": 0,
+    "defense-type-self-use": 1,
+    "defense-type-other": 1,
     "priority": 3,
     "sheriff": "innocent",
     "classic-results": "Bodyguard, Godfather, or Arsonist.",
-    "coven-results": "Bodyguard, Godfather, Arsonist, or Crusader."
+    "coven-results": "Bodyguard, Godfather, Arsonist, or Crusader.",
+    "actions": [
+      "defend-other",
+      "defend-self"
+    ]
 
+  },
+  "Sheriff": {
+    "type": "town-investigative",
+    "attack-type": 0,
+    "defense-type": 0,
+    "priority": 4,
+    "sheriff": "innocent",
+    "classic-results": "Sheriff, Executioner, or Werewolf.",
+    "coven-results": "Sheriff, Executioner, Werewolf, or Poisoner.",
+    "actions": [
+      "investigate"
+    ]
+  },
+  "Investigator": {
+    "type": "town-investigative",
+    "attack-type": 0,
+    "defense-type": 0,
+    "priority": 4,
+    "sheriff": "innocent",
+    "classic-results": "Investigator, Consigliere, or Mayor.",
+    "coven-results": "Investigator, Consigliere, Mayor, Tracker, or Plaguebearer.",
+    "actions": [
+      "investigate"
+    ]
+  },
+  "Doctor": {
+    "type": "town-protective",
+    "attack-type": 0,
+    "defense-type": 0,
+    "defense-type-self-use": 2,
+    "defense-type-other": 2,
+    "priority": 3,
+    "sheriff": "innocent",
+    "classic-results": "Doctor, Disguiser, or Serial Killer.\n",
+    "coven-results": "Doctor, Disguiser, Serial Killer, or Potion Master.",
+    "actions": [
+      "defend-other",
+      "defend-self"
+    ]
+  },
+  "Arsonist": {
+    "type": "neutral-killing",
+    "attack-type": 0,
+    "defense-type": 1,
+    "priority": 5,
+    "sheriff": "innocent",
+    "classic-results": "Bodyguard, Godfather, or Arsonist.",
+    "coven-results": "Bodyguard, Godfather, Arsonist, or Crusader.",
+    "actions": [
+      "ignite",
+      "douse",
+      "clean-self"
+    ]
   },
   "": {
     "type": "",
-    "attack-type": "",
-    "defense-type": "",
+    "attack-type": 0,
+    "defense-type": 0,
     "priority": 0,
     "sheriff": "",
     "classic-results": "",
-    "coven-results": ""
+    "coven-results": "",
+    "actions": [
+
+    ]
   }
 }

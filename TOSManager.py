@@ -7,9 +7,8 @@
 
 import sys
 from init import *
-from roletypes import *
 from defs import *
-
+from roletypes import *
 try:
     import Tkinter as tk
 except ImportError:
@@ -68,6 +67,8 @@ class Toplevel1:
         _compcolor = '#d9d9d9'  # X11 color: 'gray85'
         _ana1color = '#d9d9d9'  # X11 color: 'gray85'
         _ana2color = '#ececec'  # Closest X11 color: 'gray92'
+        font9 = "-family {Arial} -size 16 -weight bold"
+        font16 = "-family Arial -size 16 -weight bold -slant roman -underline 0 -overstrike 0"
 
         top.geometry("769x742+492+79")
         top.minsize(120, 1)
@@ -124,7 +125,7 @@ class Toplevel1:
         self.btnRoleSelect.configure(activeforeground="#000000")
         self.btnRoleSelect.configure(background="#d9d9d9")
         self.btnRoleSelect.configure(disabledforeground="#a3a3a3")
-        self.btnRoleSelect.configure(font="-family Arial -size 16 -weight bold -slant roman -underline 0 -overstrike 0")
+        self.btnRoleSelect.configure(font=font16)
         self.btnRoleSelect.configure(foreground="#0000ff")
         self.btnRoleSelect.configure(highlightbackground="#d9d9d9")
         self.btnRoleSelect.configure(highlightcolor="black")
@@ -233,14 +234,6 @@ class Toplevel1:
         self.neutralSelect.configure(highlightbackground="#d9d9d9")
         self.neutralSelect.configure(highlightcolor="black")
 
-        self.actionSelect = tk.Frame(self.Frame1)
-        self.actionSelect.place(relx=0.0, rely=0.135, relheight=0.791
-                                , relwidth=0.745)
-        self.actionSelect.configure(relief="groove")
-        self.actionSelect.configure(background="#d9d9d9")
-        self.actionSelect.configure(highlightbackground="#d9d9d9")
-        self.actionSelect.configure(highlightcolor="#00ff40")
-
         self.roleSelect = tk.Frame(self.Frame1)
         self.roleSelect.place(relx=0.0, rely=0.108, relheight=0.817
                               , relwidth=0.991)
@@ -256,7 +249,7 @@ class Toplevel1:
         self.btnTownSelect.configure(activeforeground="#000000")
         self.btnTownSelect.configure(background="#d9d9d9")
         self.btnTownSelect.configure(disabledforeground="#a3a3a3")
-        self.btnTownSelect.configure(font="-family Arial -size 16 -weight bold -slant roman -underline 0 -overstrike 0")
+        self.btnTownSelect.configure(font=font16)
         self.btnTownSelect.configure(foreground="#0000ff")
         self.btnTownSelect.configure(highlightbackground="#d9d9d9")
         self.btnTownSelect.configure(highlightcolor="black")
@@ -272,7 +265,7 @@ class Toplevel1:
         self.btnMafiaSelect.configure(background="#d9d9d9")
         self.btnMafiaSelect.configure(disabledforeground="#a3a3a3")
         self.btnMafiaSelect.configure(
-            font="-family Arial -size 16 -weight bold -slant roman -underline 0 -overstrike 0")
+            font=font16)
         self.btnMafiaSelect.configure(foreground="#0000ff")
         self.btnMafiaSelect.configure(highlightbackground="#d9d9d9")
         self.btnMafiaSelect.configure(highlightcolor="black")
@@ -289,7 +282,7 @@ class Toplevel1:
         self.btnNeutralSelect.configure(background="#d9d9d9")
         self.btnNeutralSelect.configure(disabledforeground="#a3a3a3")
         self.btnNeutralSelect.configure(
-            font="-family Arial -size 16 -weight bold -slant roman -underline 0 -overstrike 0")
+            font=font16)
         self.btnNeutralSelect.configure(foreground="#0000ff")
         self.btnNeutralSelect.configure(highlightbackground="#d9d9d9")
         self.btnNeutralSelect.configure(highlightcolor="black")
@@ -306,7 +299,7 @@ class Toplevel1:
         self.btnCovenSelect.configure(cursor="fleur")
         self.btnCovenSelect.configure(disabledforeground="#a3a3a3")
         self.btnCovenSelect.configure(
-            font="-family Arial -size 16 -weight bold -slant roman -underline 0 -overstrike 0")
+            font=font16)
         self.btnCovenSelect.configure(foreground="#0000ff")
         self.btnCovenSelect.configure(highlightbackground="#d9d9d9")
         self.btnCovenSelect.configure(highlightcolor="black")
@@ -330,6 +323,54 @@ class Toplevel1:
         self.btnPlayersActions.configure(takefocus="0")
         self.btnPlayersActions.configure(text='''Players and Actions''')
         self.btnPlayersActions.configure(command=self.openPlayerActions)
+
+        self.labelAttack = tk.Label(self.Frame1)
+        self.labelAttack.place(relx=0.761, rely=0.013, height=20, width=79)
+        self.labelAttack.configure(background="#d9d9d9")
+        self.labelAttack.configure(disabledforeground="#a3a3a3")
+        self.labelAttack.configure(font=font9)
+        self.labelAttack.configure(foreground="#ff0000")
+        self.labelAttack.configure(text='''Attack:''')
+
+        self.labelDefense = tk.Label(self.Frame1)
+        self.labelDefense.place(relx=0.743, rely=0.04, height=20, width=88)
+        self.labelDefense.configure(activebackground="#f9f9f9")
+        self.labelDefense.configure(activeforeground="black")
+        self.labelDefense.configure(background="#d9d9d9")
+        self.labelDefense.configure(disabledforeground="#a3a3a3")
+        self.labelDefense.configure(font=font16)
+        self.labelDefense.configure(foreground="#008000")
+        self.labelDefense.configure(highlightbackground="#d9d9d9")
+        self.labelDefense.configure(highlightcolor="#008000")
+        self.labelDefense.configure(text='''Defense:''')
+
+        self.labelAttackVar = tk.Label(self.Frame1)
+        self.labelAttackVar.place(relx=0.859, rely=0.013, height=19, width=99)
+        self.labelAttackVar.configure(activebackground="#f9f9f9")
+        self.labelAttackVar.configure(activeforeground="black")
+        self.labelAttackVar.configure(background="#d9d9d9")
+        self.labelAttackVar.configure(disabledforeground="#a3a3a3")
+        self.labelAttackVar.configure(
+            font=font16)
+        self.labelAttackVar.configure(foreground="#ff0000")
+        self.labelAttackVar.configure(highlightbackground="#d9d9d9")
+        self.labelAttackVar.configure(highlightcolor="black")
+        self.currattack = StringVar()
+        self.labelAttackVar.configure(textvariable=self.currattack)
+
+        self.labelDefenseVar = tk.Label(self.Frame1)
+        self.labelDefenseVar.place(relx=0.859, rely=0.04, height=20, width=99)
+        self.labelDefenseVar.configure(activebackground="#f9f9f9")
+        self.labelDefenseVar.configure(activeforeground="black")
+        self.labelDefenseVar.configure(background="#d9d9d9")
+        self.labelDefenseVar.configure(disabledforeground="#a3a3a3")
+        self.labelDefenseVar.configure(
+            font=font16)
+        self.labelDefenseVar.configure(foreground="#008000")
+        self.labelDefenseVar.configure(highlightbackground="#d9d9d9")
+        self.labelDefenseVar.configure(highlightcolor="#008000")
+        self.currdefense = StringVar()
+        self.labelDefenseVar.configure(textvariable=self.currdefense)
 
         set_buttons(self, {"Investigative": town_investigative, "Protective": town_protective, "Support": town_support,
                            "Killing": town_killing}, self.townSelect)
@@ -363,6 +404,16 @@ class Toplevel1:
         self.currentid.set(currentplayer.pid)
         self.currname.set(currentplayer.name)
         try:
+            make_actions(self, currentplayer.role, players)
+        except:
+            pass
+        try:
+            self.currattack.set(attack_types[currentplayer.role.attack])
+            self.currdefense.set(attack_types[currentplayer.role.defense])
+        except:
+            pass
+
+        try:
             self.currentrole.set(currentplayer.role.name)
         except:
             self.currentrole.set("")
@@ -376,6 +427,15 @@ class Toplevel1:
         self.currentid.set(currentplayer.pid)
         self.currname.set(currentplayer.name)
         try:
+            make_actions(self, currentplayer.role, players)
+        except:
+            pass
+        try:
+            self.currattack.set(attack_types[currentplayer.role.attack])
+            self.currdefense.set(attack_types[currentplayer.role.defense])
+        except:
+            pass
+        try:
             self.currentrole.set(currentplayer.role.name)
         except:
             self.currentrole.set("")
@@ -384,6 +444,9 @@ class Toplevel1:
         global currentplayer
         currentplayer.role = Role(role)
         self.currentrole.set(currentplayer.role.name)
+        self.currattack.set(attack_types[currentplayer.role.attack])
+        self.currdefense.set(attack_types[currentplayer.role.defense])
+        make_actions(self, currentplayer.role, players)
 
 
 if __name__ == '__main__':

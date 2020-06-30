@@ -9,3 +9,5 @@ neutral_evil = ["Executioner", "Jester", "Witch"]
 neutral_chaos = ["Vampire"]
 neutral_killing = ["Arsonist", "Serial Killer", "Werewolf"]
 neutral_benign = ["Amnesiac", "Survivor"]
+
+attack_types = {0: "None", 1: "Basic", 2: "Powerfull", 3: "Unstoppable"}

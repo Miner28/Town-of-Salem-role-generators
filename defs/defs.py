@@ -1,7 +1,6 @@
-from tkinter import Button, Label
-from roletypes import *
+from tkinter import Button
 import random
-
+test = "yes"
 
 def make_buttons(master, buttonlist, self):
     buttons = []

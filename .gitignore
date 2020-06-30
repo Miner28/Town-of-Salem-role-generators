@@ -14,3 +14,7 @@ TOSGUI.py.bak2
 *.tre
 
 *.tcl
+
+GENERATE/
+
+TOSGUI.py
