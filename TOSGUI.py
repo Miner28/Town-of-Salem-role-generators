@@ -6,8 +6,9 @@
 #    Jun 29, 2020 04:21:24 PM CEST  platform: Windows NT
 
 import sys
-from functools import partial
 from init import *
+from roletypes import *
+from defs import *
 
 try:
     import Tkinter as tk
@@ -72,7 +73,7 @@ class Toplevel1:
         top.minsize(120, 1)
         top.maxsize(3204, 1061)
         top.resizable(0, 0)
-        top.title("New Toplevel")
+        top.title("Town of Salem game manager")
         top.configure(background="#d9d9d9")
         top.configure(highlightbackground="#d9d9d9")
         top.configure(highlightcolor="black")
@@ -83,6 +84,14 @@ class Toplevel1:
         self.Frame1.configure(background="#d9d9d9")
         self.Frame1.configure(highlightbackground="#d9d9d9")
         self.Frame1.configure(highlightcolor="black")
+
+        self.F2 = tk.Frame(self.Frame1)
+        self.F2.place(relx=0.0, rely=0.108, relheight=0.817
+                               , relwidth=0.991)
+        self.F2.configure(relief="groove")
+        self.F2.configure(background="#d9d9d9")
+        self.F2.configure(highlightbackground="#d9d9d9")
+        self.F2.configure(highlightcolor="black")
 
         self.labelPlayername = tk.Label(self.Frame1)
         self.labelPlayername.place(relx=0.0, rely=0.0, height=31, width=118)
@@ -269,6 +278,7 @@ class Toplevel1:
         self.btnMafiaSelect.configure(highlightcolor="black")
         self.btnMafiaSelect.configure(pady="0")
         self.btnMafiaSelect.configure(takefocus="0")
+        self.btnMafiaSelect.configure(command=self.openMafiaSelect)
         self.btnMafiaSelect.configure(text='''Mafia''')
 
         self.btnNeutralSelect = tk.Button(self.roleSelect)
@@ -286,6 +296,7 @@ class Toplevel1:
         self.btnNeutralSelect.configure(pady="0")
         self.btnNeutralSelect.configure(takefocus="0")
         self.btnNeutralSelect.configure(text='''Neutral''')
+        self.btnNeutralSelect.configure(command=self.openNeutralSelect)
 
         self.btnCovenSelect = tk.Button(self.roleSelect)
         self.btnCovenSelect.place(relx=0.469, rely=0.412, height=124, width=267)
@@ -319,46 +330,55 @@ class Toplevel1:
         self.btnPlayersActions.configure(takefocus="0")
         self.btnPlayersActions.configure(text='''Players and Actions''')
         self.btnPlayersActions.configure(command=self.openPlayerActions)
-        row = 1
-        col = 0
-        self.labelInvestigative = tk.Label(self.townSelect)
-        self.labelInvestigative.configure(
-            font="-family Arial -size 20 -weight bold -slant roman -underline 0 -overstrike 0", foreground="#0080ff",
-            background="#d9d9d9", text="Investigative")
-        self.labelInvestigative.grid(row=0, column=0)
-        for button in make_buttons(self.townSelect, ["Sheriff", "Investigator", "Spy", "Lookout"], self):
-            button.grid(row=row)
-            button.configure(width=11, command=lambda role=button["text"]: self.set_role(role))
-            row += 1
+
+        set_buttons(self, {"Investigative": town_investigative, "Protective": town_protective, "Support": town_support,
+                           "Killing": town_killing}, self.townSelect)
+        set_buttons(self, {"Killing": mafia_killing, "Support": mafia_support, "Deception": mafia_deception}, self.mafiaSelect)
+        set_buttons(self, {"Killing": neutral_killing, "Evil": neutral_evil, "Chaos": neutral_chaos, "Benign": neutral_benign}, self.neutralSelect)
 
     def openPlayerActions(self):
+        self.F2.lift()
         self.actionSelect.lift()
         self.playerSelect.lift()
-        self.roleSelect.lower()
+
 
     def openRoleSelect(self):
         self.roleSelect.lift()
 
     def openTownSelect(self):
         self.townSelect.lift()
+    def openMafiaSelect(self):
+        self.mafiaSelect.lift()
+    def openNeutralSelect(self):
+        self.neutralSelect.lift()
 
     def next_player(self):
         global currentplayer
         index = currentplayer.pid
         currentplayer.name = self.currname.get()
+        currentplayer.role = Role(self.currentrole.get())
         if index >= 15:
             index = 0
         currentplayer = players[index]
         self.currentid.set(currentplayer.pid)
         self.currname.set(currentplayer.name)
+        try:
+            self.currentrole.set(currentplayer.role.name)
+        except:
+            self.currentrole.set("")
 
     def prev_player(self):
         global currentplayer
         currentplayer.name = self.currname.get()
+        currentplayer.role = Role(self.currentrole.get())
         index = currentplayer.pid
         currentplayer = players[index - 2]
         self.currentid.set(currentplayer.pid)
         self.currname.set(currentplayer.name)
+        try:
+            self.currentrole.set(currentplayer.role.name)
+        except:
+            self.currentrole.set("")
 
     def set_role(self, role):
         global currentplayer

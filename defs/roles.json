@@ -1,5 +1,6 @@
 {
   "Serial Killer": {
+    "type": "neutral-killing",
     "attack-type": "basic",
     "defense-type": "basic",
     "priority": 5,
@@ -8,13 +9,23 @@
     "coven-results": "Doctor, Disguiser, Serial Killer, or Potion Master."
   },
   "Bodyguard": {
+    "type": "town-protective",
     "attack-type": "powerfull",
     "defense-type": "none",
     "defense-type-vest": "basic",
-    "pririty": 3,
+    "priority": 3,
     "sheriff": "innocent",
     "classic-results": "Bodyguard, Godfather, or Arsonist.",
-    "coven-results": "Bodyguard, Godfather, Arsonist, or Crusader.",
+    "coven-results": "Bodyguard, Godfather, Arsonist, or Crusader."
 
+  },
+  "": {
+    "type": "",
+    "attack-type": "",
+    "defense-type": "",
+    "priority": 0,
+    "sheriff": "",
+    "classic-results": "",
+    "coven-results": ""
   }
 }
