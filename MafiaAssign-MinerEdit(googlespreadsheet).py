@@ -127,7 +127,7 @@ def AltTest():
     elif townNumbers == 10:
         mafiaCount = 2
         neuCount = 1
-        townCount = 6
+        townCount = 7
         covenCount = 2
     elif townNumbers == 11:
         mafiaCount = 3
