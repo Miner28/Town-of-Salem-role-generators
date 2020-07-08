@@ -4,21 +4,16 @@ import random
 import requests
 import sys, os
 from dotenv import load_dotenv
+import gspread, gspread.utils
+import datetime
+
 client = commands.Bot(command_prefix='!')
-client.remove_command('help')
 load_dotenv()
 secret = os.getenv("secret")
+gclient = gspread.service_account(filename="client_secret.json")
+role_sheet = gclient.open("roleGenerator").sheet1
+curColumn = 1
 
-
-#__________________________________________________________
-#Created by George Shea     ßeta
-# 15/6/2020
-# 28/6/2020
-# Version 2.0
-# Massive upgrade to include maffia returns coven and classic
-# no bugs yet
-# automaticly gives out roles for the town of salem game
-#__________________________________________________________
 
 async def AltTest(townNumbers, GameMode, ctx):
     GameMode -= 1
@@ -41,7 +36,7 @@ async def AltTest(townNumbers, GameMode, ctx):
         "Jailor", \
         "Trapper", \
         "Medium", \
-        "Consigliere",                  \
+        "Consigliere", \
         "Consort", \
         "Blackmailer", \
         "Janitor", \
@@ -49,7 +44,7 @@ async def AltTest(townNumbers, GameMode, ctx):
         "Disquiser", \
         "Framer", \
         "Hypnotist", \
-        "Serial Killer",                \
+        "Serial Killer", \
         "Jester", \
         "Executioner", \
         "Witch", \
@@ -60,31 +55,30 @@ async def AltTest(townNumbers, GameMode, ctx):
         "Werewolf", \
         "Plaguebearer", \
         "Vampire", \
-        "Coven leader" ,                 \
+        "Coven leader", \
         "Medusa", \
         "Necromancer", \
         "Hex Master", \
         "Potion Master", \
 
     MafiaReturns = \
-               1 , 1 , 1 , 1 , 1 , 1 , 1 , 1 , 1 , 1 , \
-               1 , 1 , 1 , 1 , 1 , 1 , 1 , 1 , 1 , 1 , \
-               1 , 1 , 1 , 1 , 1 , 1 , 1 , 1 , 0 , 1 , \
-               1 , 1 , 1 , 1 , 1 , 0 , 0 , 0 , 0 , 0 , \
-               0 , 0 ,\
+        1, 1, 1, 1, 1, 1, 1, 1, 1, 1, \
+        1, 1, 1, 1, 1, 1, 1, 1, 1, 1, \
+        1, 1, 1, 1, 1, 1, 1, 1, 0, 1, \
+        1, 1, 1, 1, 1, 0, 0, 0, 0, 0, \
+        0, 0, \
 
-    Classic =  1 , 1 , 1 , 1 , 1 , 1 , 1 , 1 , 1 , 0 , \
-               0 , 0 , 1 , 1 , 1 , 1 , 0 , 1 , 1 , 1 , \
-               1 , 0 , 1 , 1 , 0 , 1 , 1 , 1 , 1 , 1 , \
-               0, 1 , 1 , 0 , 1 , 0 , 1 , 0 , 0 , 0 , \
-               0 , 0 ,\
+    Classic = 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, \
+              0, 0, 1, 1, 1, 1, 0, 1, 1, 1, \
+              1, 0, 1, 1, 0, 1, 1, 1, 1, 1, \
+              0, 1, 1, 0, 1, 0, 1, 0, 0, 0, \
+              0, 0, \
 
-    Coven =    1 , 1 , 1 , 1 , 1 , 1 , 1 , 1 , 1 , 1 , \
-               1 , 1 , 1 , 1 , 1 , 1 , 1 , 1 , 1 , 1 , \
-               1 , 1 , 1 , 1 , 1 , 1 , 0 , 0 , 0 , 1 , \
-               1 , 1 , 1 , 1 , 1 , 0 , 1 , 1 , 1 , 1 , \
-               1 , 1 ,\
-
+    Coven = 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, \
+            1, 1, 1, 1, 1, 1, 1, 1, 1, 1, \
+            1, 1, 1, 1, 1, 1, 0, 0, 0, 1, \
+            1, 1, 1, 1, 1, 0, 1, 1, 1, 1, \
+            1, 1, \
 
     TownList = []
 
@@ -96,14 +90,12 @@ async def AltTest(townNumbers, GameMode, ctx):
 
     FinalePrint = []
 
-    combindedList = MafiaReturns , Classic , Coven
-
-
+    combindedList = MafiaReturns, Classic, Coven
 
     if townNumbers == 7:
         mafiaCount = 2
         neuCount = 1
-        townCount =4
+        townCount = 4
         covenCount = 2
     elif townNumbers == 8:
         mafiaCount = 2
@@ -118,7 +110,7 @@ async def AltTest(townNumbers, GameMode, ctx):
     elif townNumbers == 10:
         mafiaCount = 2
         neuCount = 1
-        townCount = 6
+        townCount = 7
         covenCount = 2
     elif townNumbers == 11:
         mafiaCount = 3
@@ -146,7 +138,7 @@ async def AltTest(townNumbers, GameMode, ctx):
         townCount = 8
         covenCount = 4
 
-    #MAFIA RETURNS SYLE
+    # MAFIA RETURNS SYLE
     count = 0
     # TOWN ___________________________________________________
     for x in combindedList[GameMode]:
@@ -213,13 +205,10 @@ async def AltTest(townNumbers, GameMode, ctx):
             countSecond = countSecond + 1
             count = count + 1
 
-
     random.shuffle(FinalePrint)
 
     count = 0
     return FinalePrint
-
-
 
 
 def sendembed(title, name, value):
@@ -238,20 +227,22 @@ def sendembed(title, name, value):
 
 @client.event
 async def on_ready():
-    print(f'{client.user.name} has connected to Discord!')
+    print(f'{client.user.name} has connected to Discord! In {len(client.guilds)} servers')
 
 
-@client.command(name="makeroles")
+@client.command(name="makeroles", aliases=["makelist", "generateroles", "makerolelist"])
 async def makeroles(ctx):
+    global curColumn
     print(ctx.author)
 
     def check(m):
         return m.channel == ctx.channel and ctx.author.id != client.user.id and ctx.author.id == m.author.id
 
     def rcheck(react, u):
-        return str(react) in ["1️⃣", "2️⃣", "3️⃣"] and u.id == ctx.message.author.id
+        return str(react) in ["1️⃣", "2️⃣", "3️⃣", "✅", "❌"] and u.id == ctx.message.author.id
 
     async def send_list():
+        global curColumn
         final_list = await AltTest(int(players), int(gamemode), ctx)
         prints = []
         for each in [final_list]:
@@ -263,6 +254,24 @@ async def makeroles(ctx):
             prints.append(cur_print)
         final_print = prints[0]
         await ctx.send(embed=sendembed("Shuffled full list", f"number: {len(final_list)}", final_print))
+        msg = await ctx.send(embed=sendembed("", "INFO:", "Would you like to upload the list to connected spreadsheet\nhttps://docs.google.com/spreadsheets/d/1aVvqZUqJRfarE7mMZENH_b9IKnEKa1DZPzBT91OlRZk"))
+        await msg.add_reaction("✅")
+        await msg.add_reaction("❌")
+        reaction, user = await client.wait_for('reaction_add', check=rcheck, timeout=20)
+        if str(reaction) == "✅":
+            await ctx.send(embed=sendembed("", "Uploading..", f"This can take upto 10 seconds (Usually instant)\nYour roles will be on column - {curColumn}"))
+            row = 0
+            role_sheet.update_cell(1, curColumn, str(datetime.datetime.now()))
+            start = gspread.utils.rowcol_to_a1(3, curColumn)
+            end = gspread.utils.rowcol_to_a1(17, curColumn)
+            cell_list = role_sheet.range(f'{start}:{end}')
+            for cell in cell_list:
+                cell.value = ""
+            for x in final_list:
+                cell_list[row].value = x
+                row += 1
+            role_sheet.update_cells(cell_list)
+            curColumn += 1
         await ctx.send(embed=sendembed("", "INFO:", "Do you want to generate new list with the same parameters ? y/n"))
         answer = await client.wait_for('message', check=check, timeout=20)
         if answer.content == "y":
@@ -275,9 +284,9 @@ async def makeroles(ctx):
     playersmsg = await client.wait_for('message', check=check, timeout=120)
     players = playersmsg.content
     gamemodemsg = await ctx.send(embed=sendembed("", "INFO:", "Please choose a gamemode.\n"
-                                                "1. Mafia Returns\n"
-                                                "2. Classic\n"
-                                                "3. Coven"))
+                                                              "1. Mafia Returns\n"
+                                                              "2. Classic\n"
+                                                              "3. Coven"))
     await gamemodemsg.add_reaction("1️⃣")
     await gamemodemsg.add_reaction("2️⃣")
     await gamemodemsg.add_reaction("3️⃣")
@@ -287,8 +296,6 @@ async def makeroles(ctx):
     gamemode = gamemodes[str(reaction)]
 
     await send_list()
-
-
 
 
 @client.command(name="update", hidden=True)
